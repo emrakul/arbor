@@ -1,0 +1,17 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "cstdlib": "c",
+            "memory": "c",
+            "locale": "c",
+            "ostream": "c",
+            "new": "c",
+            "unistd.h": "c"
+        }
+    }
+}
