@@ -3,6 +3,6 @@
 
 #include "raylib.h"
 
-bool processMovement(Vector3* chelikPosition);
+void processMovement(Vector3* chelikPosition);
 
 #endif

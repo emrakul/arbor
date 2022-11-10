@@ -32,7 +32,7 @@ int main(void)
     InitWindow(screenWidth, screenHeight, "raylib [core] example - 3d picking");      // Define the camera to look into our 3d world
     Camera camera = { 0 };
     camera.position = (Vector3){ 5.0f, 5.0f, 5.0f }; // Camera position
-    camera.target = (Vector3){ 5.0f, 0.0f, 0.0f };      // Camera looking at point
+    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy =  12.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_ORTHOGRAPHIC;                   // Camera mode type
@@ -80,7 +80,9 @@ int main(void)
     {
         // Update
         camera.position = chelikPosition;
-        if (processMovement(&chelikPosition)) turnCounter++;
+        Vector3 previousPosition = chelikPosition;
+        processMovement(&chelikPosition);
+        if (!Vector3Equals(chelikPosition,previousPosition)) turnCounter++;
         camera.target = chelikPosition;
         UpdateCamera(&camera);
         ++frameCounter;
@@ -163,8 +165,6 @@ int main(void)
                     DrawCube(map.cubes[lastHitCubeIndex].position, cubeSize.x, cubeSize.y + 0.1f, cubeSize.z, CLITERAL(Color){ 250, 152, 6, (int)mo });
                     //EndBlendMode();
                 }
-                
-
                 DrawRay(ray, MAROON);
                 DrawGrid(10, 1.0f);
                 BeginBlendMode(BLEND_ALPHA);
@@ -173,16 +173,17 @@ int main(void)
 
             EndMode3D();
             //Vector2 font_position = {20, 20};
-            //Vector2 turn_position = {20, 240};
-            //char* turnText;
+            Vector2 turn_position = {20, 240};
+            char* turnText = malloc(sizeof(char)*60);
 
             //DrawTextEx(fonts[2], "Seek BENCH", font_position, 50, 2, WHITE);
             //BeginBlendMode(BLEND_ALPHA);
-            DrawRectangle(10, screenHeight-110, screenWidth-20, 100, BLACK);
+            //DrawRectangle(10, screenHeight-110, screenWidth-20, 100, BLACK);
             //EndBlendMode();
-            DrawText(name, (int)input.x + 5, (int)input.y + 5, 20, GRAY);
-            //3sprintf(turnText, "Turn: %d", turnCounter);
-            //DrawTextEx(fonts[2], turnText, font_position, 50, 2, WHITE);
+            //DrawText(name, (int)input.x + 5, (int)input.y + 5, 20, GRAY);
+            sprintf(turnText, "Turn: %d\n", turnCounter);
+            printf( "Turn: %d\n", turnCounter);
+            DrawTextEx(fonts[2], turnText, turn_position, 50, 2, WHITE);
             //Vector2 message_position = {(screenWidth - MeasureText("SKAMEYKA SELECTED", 40)) / 2, (int)(screenHeight * 0.05f)};
             //if (collision.hit) DrawTextEx(fonts[2], "BENCH SELECTED", message_position, 50, 10, MAGENTA);
             DrawFPS(10, 10);
